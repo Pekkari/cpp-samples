@@ -24,20 +24,34 @@
  *       reasons for your decision. 
  */
 
+#ifndef ASSIGNMENT_01_HPP
+#define ASSIGNMENT_01_HPP
+#include <string>
+#include <list>
+
 class Note
 {
-	/*fill in*/
+public:
+	std::string title;
+	std::string text;
+	std::list<std::string> tags;
+	Note();
+	Note(std::string title, std::string text, std::string *tags);
+	bool operator==(const Note &note) const;
 };
  
 class Storyboard
 {
 public:
-	void addNote(/*fill in*/);
-	void deleteNote(/*fill in*/);
-	/*fill in*/ searchByTitle(/*fill in*/);
-	/*fill in*/ searchByText(/*fill in*/);
-	/*fill in*/ searchByTag(/*fill in*/);
+	void addNote(std::string title, std::string text,
+		     std::string *tags);
+	void deleteNote(Note element);
+	int searchByTitle(std::string title);
+	int searchByText(std::string text);
+	int searchByTag(std::string tag);
+	Storyboard();
 	
 private:
-	/*fill in*/
+	std::list<Note> notes;
 };
+#endif
