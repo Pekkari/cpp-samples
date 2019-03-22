@@ -1,6 +1,6 @@
-#include <stdio.h>
 #include <assignment.02.hpp>
 
-int main(void){
+int main(void)
+{
 	return 0;
 }

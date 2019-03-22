@@ -26,6 +26,7 @@
 
 #ifndef ASSIGNMENT_01_HPP
 #define ASSIGNMENT_01_HPP
+
 #include <string>
 #include <list>
 
@@ -34,7 +35,7 @@ class Note
 public:
 	std::string title;
 	std::string text;
-	std::list<std::string> tags;
+	std::string * tags;
 	Note();
 	Note(std::string title, std::string text, std::string *tags);
 	bool operator==(const Note &note) const;
@@ -43,6 +44,7 @@ public:
 class Storyboard
 {
 public:
+	std::list<Note> notes;
 	void addNote(std::string title, std::string text,
 		     std::string *tags);
 	void deleteNote(Note element);
@@ -50,8 +52,5 @@ public:
 	int searchByText(std::string text);
 	int searchByTag(std::string tag);
 	Storyboard();
-	
-private:
-	std::list<Note> notes;
 };
 #endif

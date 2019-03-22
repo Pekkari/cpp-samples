@@ -1,18 +1,22 @@
 BIN=./bin/
+LIB=./lib/
 INC=./include/
 SOURCE=./src/
-CC=gcc
+CC=g++
 CFLAGS=-I$(INC)
-LIST=$(BIN)assignment.01 $(BIN)assignment.02
+LDFLAGS=-L$(LIB) -Wl,-rpath,$(LIB) -g
+LDSHAREDFLAGS=-fPIC -shared
+TEST=./test/
+LIST=$(LIB)libassignment-01 $(BIN)assignment-01 # $(LIB)libassignment-02 $(BIN)assignment-02
 
 all: $(LIST)
 
+$(LIB)%: $(SOURCE)%.cpp
+	$(CC) -o $@.so $< $(CFLAGS) $(LDFLAGS) $(LDSHAREDFLAGS)
 
-$(BIN)%: $(SOURCE)%.cpp
-	$(CC) $< $(CFLAGS) -o $@
-
-%: $(SOURCE)%.cpp
-	$(CC) $< $(CFLAGS) -o $(BIN)$@
+$(BIN)%: $(TEST)%.cpp $(LIB)lib%.so
+	$(CC) -o $@ $< $(CFLAGS) $(LDFLAGS) -l$*
 
 clean:
-	rm $(BIN)/*
+	rm $(BIN)*
+	rm $(LIB)*
