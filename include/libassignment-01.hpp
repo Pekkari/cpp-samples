@@ -1,15 +1,15 @@
 /* In this exercise we want to design a Storyboard. Our version of the Storyboard
  * contains arbitrary many notes (imagine it like putting sticky notes on a board).
  * Every note has a title, a text and a set of tags. E.g.
- * 	- title: "Test Traceplayer"
- * 	- text: "Implement a unit test for the class Traceplayer of the spark core framework."
- * 	- tags: {"unit test", "traceplayer", "testing", "spark core"}
+ *     - title: "Test Traceplayer"
+ *     - text: "Implement a unit test for the class Traceplayer of the spark core framework."
+ *     - tags: {"unit test", "traceplayer", "testing", "spark core"}
  * 
  * Our Storyboard should enable us to search for notes by title, text and tags.
  * E.g.:
  *      searchByTitle("Test Traceplayer")
  *      searchByTag({"testing", "unit test"})
- *   	searchByText("Implement a unit test for the class Traceplayer of the spark core framework.")
+ *       searchByText("Implement a unit test for the class Traceplayer of the spark core framework.")
  * For the sake of simplicity we don't want to do any similiarity or prefix matching when
  * searching for a title, tag or text. Only an exact match should give results.
  * 
@@ -27,30 +27,32 @@
 #ifndef ASSIGNMENT_01_HPP
 #define ASSIGNMENT_01_HPP
 
-#include <string>
 #include <list>
+#include <string>
 
 class Note
 {
 public:
-	std::string title;
-	std::string text;
-	std::string * tags;
-	Note();
-	Note(std::string title, std::string text, std::string *tags);
-	bool operator==(const Note &note) const;
+    std::string title;
+    std::string text;
+    std::list<std::string> * tags;
+    bool operator==(const Note &note) const;
+    bool operator!=(const Note &note) const;
+    Note();
+    Note(std::string title, std::string text, std::string *tags);
+    int lookupTag(std::string tag);
 };
  
 class Storyboard
 {
 public:
-	std::list<Note> notes;
-	void addNote(std::string title, std::string text,
-		     std::string *tags);
-	void deleteNote(Note element);
-	int searchByTitle(std::string title);
-	int searchByText(std::string text);
-	int searchByTag(std::string tag);
-	Storyboard();
+    std::list<Note> * notes;
+    Storyboard();
+    void addNote(std::string title, std::string text,
+             std::string *tags);
+    void deleteNote(Note element);
+    int searchByTitle(std::string title);
+    int searchByText(std::string text);
+    int searchByTag(std::string tag);
 };
 #endif
