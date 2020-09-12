@@ -4,4 +4,5 @@ project(Module_1)
 
 add_subdirectory(first_touch)
 add_subdirectory(rectangle)
+add_subdirectory(simple_class)
 
