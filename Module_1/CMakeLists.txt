@@ -7,4 +7,5 @@ add_subdirectory(rectangle)
 add_subdirectory(simple_class)
 add_subdirectory(vector)
 add_subdirectory(vector_strings)
+add_subdirectory(dog_class)
 
