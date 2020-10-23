@@ -19,3 +19,20 @@ use as follows:
 
 You may also add other new directories as needed, for example
 for testing tools.
+
+# Build instructions
+
+Install build dependencies of SFML, by executing:
+```
+sudo apt install libudev-dev libfreetype6-dev libopenal-dev libvorbis-dev libflac-dev
+```
+Create a build directory of your choice, for instance by executing:
+```
+$ mkdir build
+$ cd build
+```
+Execute:
+```
+$ cmake ..
+$ make
+```
