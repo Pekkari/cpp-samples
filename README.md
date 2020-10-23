@@ -36,3 +36,7 @@ Execute:
 $ cmake ..
 $ make
 ```
+To build with test framework, run cmake with like following instead:
+```
+$ cmake .. -DBUILD_TESTING=true
+```
