@@ -22,6 +22,22 @@ for testing tools.
 
 # Build instructions
 
+## Git submodules
+
+The dependencies of the project(SFML, and googletests) have been
+added to the repository using submodules to let anybody share
+the same versions during development. To get them over the git
+submodules, be sure to clone the project using:
+```
+$ git clone --recursive git@courses-git.comnet.aalto.fi:CPP-F2020/cpu-emulator-2020-2.git
+```
+If you cloned it already, and you only want to bring the git
+submodules, execute this:
+```
+$ git submodule update --init
+```
+## Cmake build
+
 Install build dependencies of SFML, by executing:
 ```
 sudo apt install libudev-dev libfreetype6-dev libopenal-dev libvorbis-dev libflac-dev
