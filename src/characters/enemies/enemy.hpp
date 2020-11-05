@@ -1,7 +1,4 @@
-#include <string>
-#include "SFML/System/Vector2.hpp"
-
-#include "character.hpp"
+#include "characters/character.hpp"
 
 class Enemy : public Character {
 

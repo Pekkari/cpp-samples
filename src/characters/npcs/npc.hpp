@@ -1,4 +1,4 @@
-#include "characters/character.hpp"
+#include <string>
 
 class NPC : public Character {
 
