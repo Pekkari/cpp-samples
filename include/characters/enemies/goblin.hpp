@@ -1,4 +1,4 @@
-#include "enemy.hpp"
+#include "characters/enemies/enemy.hpp"
 
 class Goblin : public Enemy {
 
