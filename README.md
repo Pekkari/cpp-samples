@@ -56,3 +56,11 @@ To build with test framework, run cmake with like following instead:
 ```
 $ cmake .. -DBUILD_TESTING=true
 ```
+## Run the game
+
+After a successful build, the game will be located under build/bin,
+you can execute:
+```
+./bin/dungeon-crawler
+```
+To start testing.
