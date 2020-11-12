@@ -4,14 +4,14 @@
 
 class Item {
 public:
-    explicit Item(std::string& name, sf::Vector2<float> position) :
+    Item(std::string& name, sf::Vector2<float> position) :
         name_(name), position_(position) {}
     virtual ~Item() {};
     std::string getName() const;
     sf::Vector2<float> getPosition() const;
     sf::Sprite getSprite() const;
+    virtual sf::Sprite getSprite() const = 0;
 private:
     std::string name_;
     sf::Vector2<float> position_;
-    sf::Sprite sprite_;
 };
