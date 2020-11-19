@@ -9,5 +9,5 @@ public:
     Input() { }
     Input(void (&handler)()) { }
 
-    std::queue<InputEvent> listen();
+    InputEvent listen();
 };

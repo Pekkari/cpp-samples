@@ -1,3 +1,4 @@
+#include <queue>
 #include <thread>
 #include <chrono>
 
@@ -12,44 +13,48 @@ int Display::listen() {
     resolution.x = sf::VideoMode::getDesktopMode().width;
     resolution.y = sf::VideoMode::getDesktopMode().height;
 
-    sf::RenderWindow window_(sf::VideoMode(resolution.x, resolution.y),
+    sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y),
         "Dungeon Crawler", sf::Style::Fullscreen);
 
-    //Generate input thread
+    //Generate input processor
     Input inp;
-    std::chrono::microseconds input_processing_time;
 
-    while (window_.isOpen()) {
+    sf::Event event;
+    while (window.isOpen()) {
+        std::chrono::microseconds processing_time;
 
-        // check all the window_'s events that were triggered since the last iteration of the loop
-        sf::Event event;
+        while (window.pollEvent(event)) {
 
-        while (window_.pollEvent(event))
-        {
-            std::chrono::microseconds processing_time;
+            // Process input
+            if (event.type == sf::Event::KeyPressed ||
+                event.type == sf::Event::MouseButtonPressed) {
+                InputEvent input_ev = inp.listen();
+                input_event_queue_.push(input_ev);
 
-            // TODO: Process input
+                // Check Esc keypress to close window
+                if (input_ev.GetName() == "KeyEsc")
+                    window.close();
+            }
 
-            // "close requested" event: we close the window_
-            if (event.type == sf::Event::Closed)
-                window_.close();
+            // "close requested" event: we close the window
+            if (event.type == sf::Event::Closed) {
+                window.close();
+                break;
+            }
 
-
-            // clear the window_ with black color
-            window_.clear(sf::Color::Black);
+            // clear the window with black color
+            window.clear(sf::Color::Black);
 
             // Draw scene
 
             // end the current frame
-            window_.display();
-
-            std::this_thread::sleep_for(
-                std::chrono::microseconds(std::chrono::microseconds(16) - processing_time)
-            );
+            window.display();
         }
+        std::this_thread::sleep_for(
+            std::chrono::microseconds(std::chrono::microseconds(16) - processing_time)
+        );
     }
 
-    window_.close();
     return 0;
 }
 
@@ -58,9 +63,5 @@ Display::Display() {
 }
 
 Display::Display(int (&handler)()) {
-    display_listener_ = std::async(std::launch::async, &Display::listen, this);
-}
-
-void Display::Close() {
-    window_.close();
+    display_listener_ = std::async(std::launch::async, handler);
 }
