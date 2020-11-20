@@ -1,8 +1,7 @@
+#pragma once
 #include <string>
 #include <vector>
 #include <SFML/System/Vector2.hpp>
-#include <SFML/Graphics.hpp>
-
 #include "items/item.hpp"
 
 class Character {
@@ -16,19 +15,18 @@ public:
 
     sf::Vector2<float> getPosition() const;
 
-    sf::Sprite getSprite() const;
-
     std::vector<Item*> getItems() const;
 
-    void addItem(Item& item);
+    virtual void pickupItem(Item* item) = 0;
 
-    void removeItem(Item& item);
+    virtual void consumeItem(int keyPress) = 0;
 
-    void move(sf::Vector2<float> direction);
+    void move(sf::Vector2<float> new_position);
 
-private:
+    virtual void Draw() const = 0; // This will be SFML method that renders the item
+
+protected:
     std::string name_;
     sf::Vector2<float> position_;
-    sf::Sprite sprite_;
     std::vector<Item*> items_;
 };
