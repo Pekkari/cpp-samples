@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(dungeon-crawler)
 
+set(CMAKE_CXX_STANDARD 17)
 set(dungeon-crawler_INCLUDE_PATH ${PROJECT_SOURCE_DIR}/include)
 set(dungeon-crawler_SOURCE_DIR ${PROJECT_SOURCE_DIR}/src)
 
@@ -23,3 +24,4 @@ IF (BUILD_TESTING)
     include_directories(googletest/googlemock)
     add_subdirectory(googletest)
 ENDIF(BUILD_TESTING)
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})

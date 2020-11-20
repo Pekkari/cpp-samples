@@ -10,7 +10,6 @@
 //Constructor & Destructor
 Game::Game(){
 
-    display_listener.get();
     initGame();
     initDisplay();
 }
@@ -71,7 +70,7 @@ void Game::update(){
             vec.erase(next(begin(vec), i));
             delete enemy;
         }else{
-            std::cout << "ENEMY --- x-coordinate: " << enemy->getPosition().x << " --- y-coordinate: " <<  enemy->getPosition().y << std::endl;
+            //std::cout << "ENEMY --- x-coordinate: " << enemy->getPosition().x << " --- y-coordinate: " <<  enemy->getPosition().y << std::endl;
             //1st Check if enemy is idle and player is near
             //2nd If idle, check if in attack range and attack
             //3nd else move towards player
@@ -152,7 +151,7 @@ bool Game::interactNPC(sf::Vector2<float> targetLoc){
 }
 
 void Game::handleInput(){
-    std::cout << "PLAYER --- x-coordinate: " << player_->getPosition().x << " --- y-coordinate: " <<  player_->getPosition().y << std::endl;
+    //std::cout << "PLAYER --- x-coordinate: " << player_->getPosition().x << " --- y-coordinate: " <<  player_->getPosition().y << std::endl;
     if (!events.empty()) {
         std::string input_event_name = events.front().GetName();
         std::cout << "Input event: " << input_event_name << std::endl;
@@ -342,7 +341,7 @@ GameTile& Game::gameTileAtLocation(sf::Vector2<float> targetLoc){
 */
 bool Game::mapReader() {
     std::ifstream infile;
-    infile.open("location.txt");
+    infile.open("assets/location.txt");
     std::string line;
 
     std::vector<std::vector<GameTile*>> tilesMap;
