@@ -22,6 +22,7 @@ public:
     std::string getName() const;
     sf::Vector2<float> getPosition() const;
     virtual ITEM_TYPE_t getType() const = 0;
+    virtual int getValue() const = 0;
     virtual void Draw() const = 0; //This will be SFML method that renders the item
 private:
     std::string name_;

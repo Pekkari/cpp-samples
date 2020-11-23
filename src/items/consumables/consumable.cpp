@@ -23,6 +23,10 @@ int HealthPotion::getRestore() const {
     return restore_;
 }
 
+int HealthPotion::getValue() const {
+    return restore_;
+}
+
 //This will be SFML method that renders the item
 void HealthPotion::Draw() const {
 
@@ -39,6 +43,10 @@ ManaPotion::ManaPotion(std::string& name, sf::Vector2<float> position) :
 }
 
 int ManaPotion::getRestore() const {
+    return restore_;
+}
+
+int ManaPotion::getValue() const {
     return restore_;
 }
 

@@ -13,6 +13,7 @@ public:
         Item(name, position) {}
     virtual ~Consumable() {};
     virtual ITEM_TYPE_t getType() const = 0;
+    virtual int getValue() const = 0;
 	virtual void Draw() const = 0; //This will be SFML method that renders the item
 private:
 };
@@ -33,6 +34,7 @@ public:
         Consumable(name, position) {}
     virtual ~Potion() {};
     virtual ITEM_TYPE_t getType() const = 0;
+    virtual int getValue() const = 0;
 	virtual void Draw() const = 0; //This will be SFML method that renders the item
 private:
 };
@@ -43,6 +45,7 @@ public:
     virtual ~HealthPotion() {};
     int getRestore() const;
     virtual ITEM_TYPE_t getType() const;
+    virtual int getValue() const;
 	virtual void Draw() const; //This will be SFML method that renders the item
 private:
     int restore_;
@@ -55,6 +58,7 @@ public:
     virtual ~ManaPotion() {};
     int getRestore() const;
     virtual ITEM_TYPE_t getType() const;
+    virtual int getValue() const;
 	virtual void Draw() const; //This will be SFML method that renders the item
 private:
     int restore_;

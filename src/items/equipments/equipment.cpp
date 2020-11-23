@@ -14,6 +14,10 @@ int Armor::getStrength() const {
     return armor_strength_;
 }
 
+int Armor::getValue() const {
+    return armor_strength_;
+}
+
 //This will be SFML method that renders the item
 void Armor::Draw() const {
 
@@ -30,6 +34,10 @@ Boots::Boots(std::string& name, sf::Vector2<float> position) :
 }
 
 int Boots::getSpeed() const {
+    return speed_;
+}
+
+int Boots::getValue() const {
     return speed_;
 }
 
@@ -53,6 +61,10 @@ int WoodenSword::getDamage() const {
     return damage_;
 }
 
+int WoodenSword::getValue() const {
+    return damage_;
+}
+
 //This will be SFML method that renders the item
 void WoodenSword::Draw() const {
 
@@ -72,6 +84,10 @@ int IronSword::getDamage() const {
     return damage_;
 }
 
+int IronSword::getValue() const {
+    return damage_;
+}
+
 //This will be SFML method that renders the item
 void IronSword::Draw() const {
 
@@ -88,6 +104,10 @@ NanoSword::NanoSword(std::string& name, sf::Vector2<float> position) :
 }
 
 int NanoSword::getDamage() const {
+    return damage_;
+}
+
+int NanoSword::getValue() const {
     return damage_;
 }
 

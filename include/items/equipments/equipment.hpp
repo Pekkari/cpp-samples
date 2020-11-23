@@ -12,6 +12,7 @@ public:
         Item(name, position) {}
     virtual ~Equipment() {};
     virtual ITEM_TYPE_t getType() const = 0;
+    virtual int getValue() const = 0;
     virtual void Draw() const = 0; //This will be SFML method that renders the item
 private:
 };
@@ -22,6 +23,7 @@ public:
     virtual ~Armor() {};
     int getStrength() const;
     virtual ITEM_TYPE_t getType() const;
+    virtual int getValue() const;
     virtual void Draw() const; //This will be SFML method that renders the item
 private:
     int armor_strength_;
@@ -34,6 +36,7 @@ public:
     virtual ~Boots() {};
     int getSpeed() const;
     virtual ITEM_TYPE_t getType() const;
+    virtual int getValue() const;
     virtual void Draw() const; //This will be SFML method that renders the item
 private:
     int speed_;
@@ -47,6 +50,7 @@ public:
         Equipment(name, position) {}
     virtual ~Weapon() {};
     virtual ITEM_TYPE_t getType() const = 0;
+    virtual int getValue() const = 0;
     virtual void Draw() const = 0; //This will be SFML method that renders the item
 private:
 };
@@ -57,6 +61,7 @@ public:
     virtual ~WoodenSword() {};
     int getDamage() const;
     virtual ITEM_TYPE_t getType() const;
+    virtual int getValue() const;
     virtual void Draw() const; //This will be SFML method that renders the item
 private:
     int damage_;
@@ -69,6 +74,7 @@ public:
     virtual ~IronSword() {};
     int getDamage() const;
     virtual ITEM_TYPE_t getType() const;
+    virtual int getValue() const;
     virtual void Draw() const; //This will be SFML method that renders the item
 private:
     int damage_;
@@ -81,6 +87,7 @@ public:
     virtual ~NanoSword() {};
     int getDamage() const;
     virtual ITEM_TYPE_t getType() const;
+    virtual int getValue() const;
     virtual void Draw() const; //This will be SFML method that renders the item
 private:
     int damage_;
