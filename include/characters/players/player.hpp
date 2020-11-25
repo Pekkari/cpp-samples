@@ -1,5 +1,6 @@
 #include "characters/character.hpp"
 
+
 class Player : public Character {
 public:
     Player(std::string& name, sf::Vector2<float> position, int hp, int mana, int exp, int strength, int armor) :
@@ -13,11 +14,11 @@ public:
 
     int getArmor() const;
 
-    void deliverAttack(Enemy& enemy, int damage);
+    //void deliverAttack(Enemy& enemy, int damage);
 
-    void absorbAttack(Enemy& enemy, int damage);
+    //void absorbAttack(Enemy& enemy, int damage);
 
-    void interactNPC(NPC& npc);
+    //void interactNPC(NPC& npc);
 
     bool isAlive() const;
 
