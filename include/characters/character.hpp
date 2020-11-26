@@ -39,12 +39,12 @@ public:
 
     virtual void setExp(int value) = 0;
 
-    std::vector<Item> getItems() const;
+    std::vector<Item*> getItems() const;
 
     void removeItem(ITEM_TYPE_t item_type);
     // Item& removeItem(ITEM_TYPE_t item_type); // usage, e.g.: remove item from NPC
 
-    void addItem(Item& item); // usage, e.g.: add the item to player items_
+    void addItem(Item* item); // usage, e.g.: add the item to player items_
 
     uint64_t getLastAttackTime() const;
 
@@ -73,7 +73,7 @@ protected:
     int max_armor_strength_ = 100;
     int exp_ = 0; // experience points of player
     int max_exp_ = 100;
-    std::vector<Item> items_;
+    std::vector<Item*> items_;
     uint64_t last_attack_time_;
     CHARACTER_TYPE_t char_type_;
 };

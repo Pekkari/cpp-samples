@@ -27,5 +27,6 @@ public:
 private:
     std::string name_;
     sf::Vector2<float> position_;
+    int value_;
     ITEM_TYPE_t type_;
 };

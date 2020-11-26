@@ -53,7 +53,7 @@ void Character::setArmorStrength(int value) {
     }
 }
 
-std::vector<Item> Character::getItems() const {
+std::vector<Item*> Character::getItems() const {
     return items_;
 }
 
@@ -72,9 +72,8 @@ void Character::removeItem(ITEM_TYPE_t item_type) {
 */
 }
 
-void Character::addItem(Item& item) {
-// some compile problem here so I commented the lines out
-//    items_.push_back(item);
+void Character::addItem(Item* item) {
+    items_.emplace_back(item);
 }
 
 uint64_t Character::getLastAttackTime() const {
@@ -93,8 +92,15 @@ bool Character::isIdle() {
     }
 }
 
+
+
+/*
+ * Usage: char1.attack(char2)
+ * => char1 attacks char2, enemy or player or vice versa.
+ * returns true if the attack was successful, i.e. the actor was at idle state.
+ */
 bool Character::attack(Character& character) {
-    if (character.isIdle()) {
+    if (this->isIdle()) {
         int impact = damage_ - character.getArmorStrength();
         if (impact < 0) {
             impact = 0;
@@ -106,14 +112,13 @@ bool Character::attack(Character& character) {
         character.setHP(value);
         if (value == 0) {
             std::cout << name_ << " has killed " << character.getName() << std::endl;
-// some compile problem here so I commented the two lines out
-           // if (char_type_ == PLAYER) {
+           if (char_type_ == CHARACTER_TYPE_ENEMY) {
                 std::cout << name_ << " had exp points " << exp_ << std::endl;
                 exp_++;
                 std::cout << "and now exp points have been raised to " << exp_ << std::endl;
-            // }
+            }
         }
-        character.setLastAttackTime();
+        this->setLastAttackTime();
         return true;
     } else {
         return false;

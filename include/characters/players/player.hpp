@@ -31,6 +31,8 @@ public:
 
     void interactNPC(NPC& npc);
 
+    CHARACTER_TYPE_t getType() const;
+
 private:
     int mana_; // mana points of player
     int speed_; // speed points of player (depends on boots)
