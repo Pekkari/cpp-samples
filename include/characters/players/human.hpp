@@ -3,6 +3,6 @@
 
 class Human : public Player {
 public:
-    Human(std::string& name, sf::Vector2<float> position, int hp, int mana, int armor_strength, int speed, int damage, int exp) :
-        Player(name, position, hp = 30, mana = 30, armor_strength = 30, speed = 30, damage = 30, exp = 30) {}
+    Human(std::string& name, sf::Vector2<float> position, int hp, int damage, int armor_strength, int mana, int speed) :
+        Player(name, position, hp = 30, damage = 30, armor_strength = 30, mana = 30, speed = 30) {}
 };
