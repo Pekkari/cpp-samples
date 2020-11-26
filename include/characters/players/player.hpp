@@ -1,8 +1,6 @@
 #pragma once
 #include "characters/character.hpp"
-#include "characters/enemies/enemy.hpp"
 #include "characters/npcs/npc.hpp"
-
 
 class Player : public Character {
 public:
@@ -15,19 +13,13 @@ public:
 
     int getExp() const;
 
-    //void deliverAttack(Enemy& enemy, int damage);
-
-    //void absorbAttack(Enemy& enemy, int damage);
-
-    //void interactNPC(NPC& npc);
-
     void setMana(int value);
 
     void setSpeed(int value);
 
     void setExp(int value);
 
-    void consumeItem(int keyPress);
+    void consumeItem();
 
     void interactNPC(NPC& npc);
 

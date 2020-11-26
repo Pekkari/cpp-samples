@@ -13,11 +13,16 @@ typedef enum {
 
 class Character {
 public:
-    Character(std::string& name, sf::Vector2<float>& position) :
+    Character(std::string& name, sf::Vector2<float> position) :
         name_(name), position_(position) { }
-    Character(std::string& name, sf::Vector2<float>& position,
-        int hp, int damage, int armor_strength) :
-    name_(name), position_(position), hp_(hp), damage_(damage), armor_strength_(armor_strength) { }
+    Character(std::string& name, sf::Vector2<float> position, int hp, int damage, int armor_strength) :
+        name_(name), position_(position), hp_(hp), damage_(damage), armor_strength_(armor_strength) { }
+
+    ~Character() {
+        for (auto it : items_) {
+            delete it;
+        }
+    };
 
     std::string getName() const;
 

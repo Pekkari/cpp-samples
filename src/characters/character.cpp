@@ -1,11 +1,7 @@
-// Character is an abstract class
-// This file contains methods of it
-
-#include "characters/character.hpp"
-
 #include <chrono>
 #include <cstdint>
 #include <iostream>
+#include "characters/character.hpp"
 
 uint64_t timeSinceEpochMillisec() {
   using namespace std::chrono;
@@ -62,13 +58,13 @@ void Character::removeItem(ITEM_TYPE_t item_type) {
 // Item& Character::removeItem(ITEM_TYPE_t item_type) {
 /*
     for (auto it = items_.begin(); it != items_.end();) {
-        if (it->getType() == item_type) {
-            Item& item = it;
+        if ((*it)->getType() == item_type) {
+            Item item = *it;
             it = items_.erase(it);
         }
         it++;
     }
-    return new Item*;
+    return item;
 */
 }
 
@@ -92,8 +88,6 @@ bool Character::isIdle() {
     }
 }
 
-
-
 /*
  * Usage: char1.attack(char2)
  * => char1 attacks char2, enemy or player or vice versa.
@@ -112,7 +106,7 @@ bool Character::attack(Character& character) {
         character.setHP(value);
         if (value == 0) {
             std::cout << name_ << " has killed " << character.getName() << std::endl;
-           if (char_type_ == CHARACTER_TYPE_ENEMY) {
+           if (char_type_ == CHARACTER_TYPE_PLAYER) {
                 std::cout << name_ << " had exp points " << exp_ << std::endl;
                 exp_++;
                 std::cout << "and now exp points have been raised to " << exp_ << std::endl;
