@@ -1,7 +1,8 @@
+#pragma once
 #include "player.hpp"
 
 class Orc : public Player {
 public:
-    Orc(std::string& name, sf::Vector2<float> position, int hp, int mana, int exp, int strength, int armor) :
-        Player(name, position, hp = 20, mana = 20, exp = 20, strength = 20, armor = 20) {}
+    Orc(std::string& name, sf::Vector2<float> position, int hp, int damage, int armor_strength, int mana, int speed) :
+        Player(name, position, hp = 20, damage = 20, armor_strength = 20, mana = 20, speed = 20) {}
 };

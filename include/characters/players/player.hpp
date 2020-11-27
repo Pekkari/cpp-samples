@@ -1,31 +1,33 @@
+#pragma once
 #include "characters/character.hpp"
-
+#include "characters/npcs/npc.hpp"
 
 class Player : public Character {
 public:
-    Player(std::string& name, sf::Vector2<float> position, int hp, int mana, int exp, int strength, int armor) :
-        Character(name, position), hp_(hp), mana_(mana), exp_(exp), strength_(strength), armor_(armor) {}
-
-    int getHP() const;
+    Player(std::string& name, sf::Vector2<float> position, int hp, int damage, int armor_strength, int mana, int speed) :
+        Character(name, position, hp, damage, armor_strength), mana_(mana), speed_(speed) {}
 
     int getMana() const;
 
-    int getStrength() const;
+    int getSpeed() const;
 
-    int getArmor() const;
+    int getExp() const;
 
-    //void deliverAttack(Enemy& enemy, int damage);
+    void setMana(int value);
 
-    //void absorbAttack(Enemy& enemy, int damage);
+    void setSpeed(int value);
 
-    //void interactNPC(NPC& npc);
+    void setExp(int value);
 
-    bool isAlive() const;
+    void consumeItem();
+
+    void interactNPC(NPC& npc);
+
+    CHARACTER_TYPE_t getType() const;
 
 private:
-    int hp_; // health points
-    int mana_; // mana points
-    int exp_; // experience points
-    int strength_; // strength points
-    int armor_; // armor points
+    int mana_; // mana points of player
+    int speed_; // speed points of player (depends on boots)
+    int max_mana_ = 100;
+    int max_speed_ = 100;
 };
