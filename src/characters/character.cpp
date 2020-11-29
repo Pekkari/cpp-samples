@@ -89,10 +89,14 @@ bool Character::isIdle() {
 }
 
 /*
- * Usage: char1.attack(char2)
- * => char1 attacks char2, enemy or player or vice versa.
- * returns true if the attack was successful, i.e. the actor was at idle state.
- */
+Used in character battles. 
+ 
+Usage: char1.attack(char2). char1 attacks char2, enemy or player or vice versa.
+
+@params this, the attacker
+@params Character& character, the attackee
+@return returns true if the attackee was killed.
+*/
 bool Character::attack(Character& character) {
     if (this->isIdle()) {
         int impact = damage_ - character.getArmorStrength();
@@ -113,7 +117,7 @@ bool Character::attack(Character& character) {
             }
         }
         this->setLastAttackTime();
-        return true;
+        return !character.isAlive();
     } else {
         return false;
     }

@@ -19,7 +19,7 @@ public:
 
     void setExp(int value);
 
-    void consumeItem();
+    void consumeItem(ITEM_TYPE_t item_type);
 
     void interactNPC(NPC& npc);
 
