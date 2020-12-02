@@ -35,7 +35,7 @@ void Player::setExp(int value) {
 }
 
 void Player::consumeItem(ITEM_TYPE_t item_type)  {
-    for (auto it = items_.begin(); it != items_.end();it++) {
+    for (auto it = items_.begin(); it != items_.end(); ++it) {
         if ((*it)->getType() == ITEM_TYPE_HEALTH_POTION && item_type == ITEM_TYPE_HEALTH_POTION) {
             std::cout << "Player consumed " << (*it)->getType() << " and had HP changed by " << (*it)->getValue() << std::endl;
             hp_ += (*it)->getValue();
