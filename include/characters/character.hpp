@@ -14,10 +14,10 @@ typedef enum {
 
 class Character {
 public:
-    Character(std::string& name, sf::Vector2<float> position) :
-        name_(name), position_(position) { }
-    Character(std::string& name, sf::Vector2<float> position, int hp, int damage, int armor_strength) :
-        name_(name), position_(position), hp_(hp), damage_(damage), armor_strength_(armor_strength) { }
+    Character(std::string& name, sf::Vector2<float> position, CHARACTER_TYPE_t type) :
+        name_(name), position_(position), char_type_(type) { }
+    Character(std::string& name, sf::Vector2<float> position, int hp, int damage, int armor_strength, CHARACTER_TYPE_t type) :
+        name_(name), position_(position), hp_(hp), damage_(damage), armor_strength_(armor_strength), char_type_(type) { }
 
     ~Character() {
         for (auto it : items_) {
@@ -59,7 +59,11 @@ public:
 
     bool isAlive() const;
 
-    virtual CHARACTER_TYPE_t getType() const = 0;
+    // getType() doesn't have to be virtual char_type_ is shared among Character objects.
+    // Each inherited object will call the constructor with an appropriate CHARACTER_TYPE_t.
+    CHARACTER_TYPE_t getType() const;
+
+
 
     void move(sf::Vector2<float> new_position);
 

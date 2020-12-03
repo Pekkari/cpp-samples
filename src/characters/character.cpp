@@ -147,3 +147,9 @@ void Character::move(sf::Vector2<float> new_position) {
 void Character::Draw() const {
 
 }
+
+
+CHARACTER_TYPE_t Character::getType() const {
+
+    return char_type_;
+}

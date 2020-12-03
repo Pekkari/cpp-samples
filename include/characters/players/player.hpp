@@ -5,7 +5,7 @@
 class Player : public Character {
 public:
     Player(std::string& name, sf::Vector2<float> position, int hp, int damage, int armor_strength, int mana, int speed) :
-        Character(name, position, hp, damage, armor_strength), mana_(mana), speed_(speed) {}
+        Character(name, position, hp, damage, armor_strength, CHARACTER_TYPE_PLAYER), mana_(mana), speed_(speed) {}
 
     int getMana() const;
 

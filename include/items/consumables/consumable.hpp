@@ -2,7 +2,7 @@
 //This file contains definitions of it
 //and all its sub-classes
 
-
+#pragma once
 #include <string>
 #include <SFML/System/Vector2.hpp>
 #include "items/item.hpp"
