@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <utility>
 #include "SFML/System/Vector2.hpp"
 #include "items/item.hpp"
 
@@ -40,16 +41,13 @@ public:
 
     void setArmorStrength(int value);
 
-    virtual int getExp() const = 0;
-
-    virtual void setExp(int value) = 0;
-
     std::vector<Item*> getItems() const;
 
     void removeItem(ITEM_TYPE_t item_type);
-    // Item& removeItem(ITEM_TYPE_t item_type); // usage, e.g.: remove item from NPC
 
     void addItem(Item* item); // usage, e.g.: add the item to player items_
+
+    bool transferItem(ITEM_TYPE_t item_type, Character& from); // usage, e.g.: player.transferItem(item_type, npc) where player = to, npc = from
 
     uint64_t getLastAttackTime() const;
 
@@ -76,8 +74,6 @@ protected:
     int max_hp_ = 100;
     int max_damage_ = 100; // this really depends on the sword so will probably not be used
     int max_armor_strength_ = 100;
-    int exp_ = 0; // experience points of player
-    int max_exp_ = 100;
     std::vector<Item*> items_;
     uint64_t last_attack_time_;
     CHARACTER_TYPE_t char_type_;

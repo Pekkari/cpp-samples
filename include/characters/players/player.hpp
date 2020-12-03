@@ -19,7 +19,7 @@ public:
 
     void setExp(int value);
 
-    void consumeItem();
+    void consumeItem(ITEM_TYPE_t item_type);
 
     void interactNPC(NPC& npc);
 
@@ -28,6 +28,8 @@ public:
 private:
     int mana_; // mana points of player
     int speed_; // speed points of player (depends on boots)
+    int exp_ = 0; // experience points of player
     int max_mana_ = 100;
     int max_speed_ = 100;
+    int max_exp_ = 100;
 };
