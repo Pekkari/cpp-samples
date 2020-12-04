@@ -14,7 +14,7 @@ class NPC : public Character {
         NPC(std::string& name, sf::Vector2<float> position)
             : Character(name, position, CHARACTER_TYPE_NPC) {}
         
-    
+
    
 
 

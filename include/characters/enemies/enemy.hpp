@@ -11,6 +11,7 @@ class Enemy : public Character {
         
 
 
+        CHARACTER_TYPE_t getType() const;
 
 
     private:

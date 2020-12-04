@@ -12,6 +12,8 @@ int main(void) {
         std::chrono::microseconds processing_time;
 
         game.handleInput();
+        game.update();
+
 
         std::this_thread::sleep_for(
             std::chrono::microseconds(std::chrono::milliseconds(1) - processing_time)

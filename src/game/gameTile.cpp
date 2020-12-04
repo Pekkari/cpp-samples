@@ -1,7 +1,7 @@
 #include "game/gameTile.hpp"
 
-GameTile::GameTile(std::string textureName, sf::Vector2f pos, bool passable, bool exit)
-    : pos_(pos), isPassable_(passable), isExit_(exit) { }
+GameTile::GameTile(std::string textureName, sf::Vector2f pos, bool passable, bool exit, bool entrance)
+    : pos_(pos), isPassable_(passable), isExit_(exit), isEntrance_(entrance) { }
 
 //Placeholder
 bool GameTile::setUpSprite(std::string textureName) {
