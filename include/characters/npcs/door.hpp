@@ -1,3 +1,4 @@
+#pragma once
 #include "npc.hpp"
 
 class Door : public NPC {
@@ -7,14 +8,14 @@ class Door : public NPC {
 
 
         Door(std::string& name, sf::Vector2<float> position)
-            : NPC(name, position) {}
+            : NPC(name, position, NPC_DOOR) {}
 
         bool isLocked() const;
         bool open();
         
 
     private:
-        bool isLocked_;
+        bool isLocked_=true;
 
         
 };

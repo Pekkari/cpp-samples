@@ -7,7 +7,7 @@ class Chest : public NPC {
 
 
         Chest(std::string& name, sf::Vector2<float> position)
-            : NPC(name, position) {}
+            : NPC(name, position, NPC_CHEST) {}
 
 
 

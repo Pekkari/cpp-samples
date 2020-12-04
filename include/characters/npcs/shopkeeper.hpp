@@ -7,7 +7,7 @@ class ShopKeeper : public NPC {
 
 
         ShopKeeper(std::string& name, sf::Vector2<float> position)
-            : NPC(name, position) {}
+            : NPC(name, position, NPC_SHOPKEEPER) {}
 
 
 
