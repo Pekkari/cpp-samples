@@ -18,11 +18,19 @@
 
 
 //Every item has a type
-typedef enum
+enum class AttackType
 {
     ATTACK_TYPE_NORMAL_HIT,
     ATTACK_TYPE_AREA_SWING
-} ATTACK_TYPE_t;
+};
+
+std::ostream& operator<<(std::ostream& os, AttackType attack) {
+    switch(attack) {
+        case AttackType::ATTACK_TYPE_NORMAL_HIT:  os << std::string("ATTACK_TYPE_NORMAL_HIT"); break;
+        case AttackType::ATTACK_TYPE_AREA_SWING:  os << std::string("ATTACK_TYPE_AREA_SWING"); break;
+    }
+    return os;
+}
 
 /*
     Class that acts as the game engine
@@ -50,7 +58,8 @@ public:
     void moveCharacters();
     bool enemySeePlayer(sf::Vector2<float> enemyLocation);
     sf::Vector2<float> playerMovement(sf::Vector2<float> direction);
-    Character& playerAttack(sf::Vector2<float> direction, ATTACK_TYPE_t attackType);
+    Character& playerAttack(sf::Vector2<float> direction,
+        AttackType attackType);
     GameTile& gameTileAtLocation(sf::Vector2<float> targetLoc);
 
     //Init functions

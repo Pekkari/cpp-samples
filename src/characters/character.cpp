@@ -53,7 +53,7 @@ std::vector<Item*> Character::getItems() const {
     return items_;
 }
 
-void Character::removeItem(ITEM_TYPE_t item_type) {
+void Character::removeItem(ItemType item_type) {
     for (auto it = items_.begin(); it != items_.end(); ++it) {
         if ((*it)->getType() == item_type) {
             it = items_.erase(it);
@@ -67,7 +67,7 @@ void Character::addItem(Item* item) {
 }
 
 // usage, e.g.: player.transferItem(item_type, npc) where player = to, npc = from
-bool Character::transferItem(ITEM_TYPE_t item_type, Character& from)  {
+bool Character::transferItem(ItemType item_type, Character& from)  {
     for (auto it = from.getItems().begin(); it != from.getItems().end(); ++it) {
         if ((*it)->getType() == item_type) {
             this->addItem(*it);
@@ -117,7 +117,7 @@ bool Character::attack(Character& character) {
 /* commented out, game engine can call player.incrementExp() if attack is true (enemy killed)
         if (value == 0) {
             std::cout << name_ << " has killed " << character.getName() << std::endl;
-           if (char_type_ == CHARACTER_TYPE_PLAYER) {
+           if (char_type_ == CharacterType::CHARACTER_TYPE_PLAYER) {
                 std::cout << name_ << " had exp points " << this->getExp() << std::endl;
                 this->setExp(this->getExp()++);
                 std::cout << "and now exp points have been raised to " << this->getExp() << std::endl;
@@ -149,7 +149,7 @@ void Character::Draw() const {
 }
 
 
-CHARACTER_TYPE_t Character::getType() const {
+CharacterType Character::getType() const {
 
     return char_type_;
 }

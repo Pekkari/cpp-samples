@@ -5,12 +5,22 @@
 #include <SFML/System/Vector2.hpp>
 #include "characters/character.hpp"
 
-typedef enum {
+enum class NPCType {
     NPC_DOOR,
     NPC_CHEST,
     NPC_SHOPKEEPER,
     NPC_WIZARD
-} NPC_TYPE_t;
+};
+
+std::ostream& operator<<(std::ostream& os, NPCType npc) {
+    switch(npc) {
+        case NPCType::NPC_DOOR:  os << std::string("NPC_DOOR"); break;
+        case NPCType::NPC_CHEST:  os << std::string("NPC_CHEST"); break;
+        case NPCType::NPC_SHOPKEEPER:  os << std::string("NPC_SHOPKEEPER"); break;
+        case NPCType::NPC_WIZARD:  os << std::string("NPC_WIZARD"); break;
+    }
+    return os;
+}
 
 class NPC : public Character {
 
@@ -18,13 +28,13 @@ class NPC : public Character {
     public:
 
 
-        NPC(std::string& name, sf::Vector2<float> position, NPC_TYPE_t type)
-            : npc_type_(type), Character(name, position, CHARACTER_TYPE_NPC) {}
+        NPC(std::string& name, sf::Vector2<float> position, NPCType type)
+            : npc_type_(type), Character(name, position,  CharacterType::CHARACTER_TYPE_NPC) {}
 
-        NPC_TYPE_t getNPCType() const;
+        NPCType getNPCType() const;
 
 
     private:
-        NPC_TYPE_t npc_type_;
+        NPCType npc_type_;
         
 };

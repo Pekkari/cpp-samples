@@ -9,8 +9,8 @@ void Key::Draw() const {
 
 }
 
-ITEM_TYPE_t Key::getType() const {
-    return ITEM_TYPE_KEY;
+ItemType Key::getType() const {
+    return ItemType::ITEM_TYPE_KEY;
 }
 
 //HealthPotion methods:
@@ -32,8 +32,8 @@ void HealthPotion::Draw() const {
 
 }
 
-ITEM_TYPE_t HealthPotion::getType() const {
-    return ITEM_TYPE_HEALTH_POTION;
+ItemType HealthPotion::getType() const {
+    return ItemType::ITEM_TYPE_HEALTH_POTION;
 }
 
 //ManaPotion methods:
@@ -55,6 +55,6 @@ void ManaPotion::Draw() const {
 
 }
 
-ITEM_TYPE_t ManaPotion::getType() const {
-    return ITEM_TYPE_MANA_POTION;
+ItemType ManaPotion::getType() const {
+    return ItemType::ITEM_TYPE_MANA_POTION;
 }

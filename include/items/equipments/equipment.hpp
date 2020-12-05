@@ -11,7 +11,7 @@ public:
     Equipment(std::string& name, sf::Vector2<float> position) :
         Item(name, position) {}
     virtual ~Equipment() {};
-    virtual ITEM_TYPE_t getType() const = 0;
+    virtual ItemType getType() const = 0;
     virtual int getValue() const = 0;
     virtual void Draw() const = 0; //This will be SFML method that renders the item
 private:
@@ -22,7 +22,7 @@ public:
     Armor(std::string& name, sf::Vector2<float> position);
     virtual ~Armor() {};
     int getStrength() const;
-    virtual ITEM_TYPE_t getType() const;
+    virtual ItemType getType() const;
     virtual int getValue() const;
     virtual void Draw() const; //This will be SFML method that renders the item
 private:
@@ -35,7 +35,7 @@ public:
     Boots(std::string& name, sf::Vector2<float> position);
     virtual ~Boots() {};
     int getSpeed() const;
-    virtual ITEM_TYPE_t getType() const;
+    virtual ItemType getType() const;
     virtual int getValue() const;
     virtual void Draw() const; //This will be SFML method that renders the item
 private:
@@ -49,7 +49,7 @@ public:
     Weapon(std::string& name, sf::Vector2<float> position) :
         Equipment(name, position) {}
     virtual ~Weapon() {};
-    virtual ITEM_TYPE_t getType() const = 0;
+    virtual ItemType getType() const = 0;
     virtual int getValue() const = 0;
     virtual void Draw() const = 0; //This will be SFML method that renders the item
 private:
@@ -60,7 +60,7 @@ public:
     WoodenSword(std::string& name, sf::Vector2<float> position);
     virtual ~WoodenSword() {};
     int getDamage() const;
-    virtual ITEM_TYPE_t getType() const;
+    virtual ItemType getType() const;
     virtual int getValue() const;
     virtual void Draw() const; //This will be SFML method that renders the item
 private:
@@ -73,7 +73,7 @@ public:
     IronSword(std::string& name, sf::Vector2<float> position);
     virtual ~IronSword() {};
     int getDamage() const;
-    virtual ITEM_TYPE_t getType() const;
+    virtual ItemType getType() const;
     virtual int getValue() const;
     virtual void Draw() const; //This will be SFML method that renders the item
 private:
@@ -86,7 +86,7 @@ public:
     NanoSword(std::string& name, sf::Vector2<float> position);
     virtual ~NanoSword() {};
     int getDamage() const;
-    virtual ITEM_TYPE_t getType() const;
+    virtual ItemType getType() const;
     virtual int getValue() const;
     virtual void Draw() const; //This will be SFML method that renders the item
 private:

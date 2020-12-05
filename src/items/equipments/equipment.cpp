@@ -23,8 +23,8 @@ void Armor::Draw() const {
 
 }
 
-ITEM_TYPE_t Armor::getType() const {
-    return ITEM_TYPE_ARMOR;
+ItemType Armor::getType() const {
+    return ItemType::ITEM_TYPE_ARMOR;
 }
 
 //Boots methods:
@@ -46,8 +46,8 @@ void Boots::Draw() const {
 
 }
 
-ITEM_TYPE_t Boots::getType() const {
-    return ITEM_TYPE_BOOTS;
+ItemType Boots::getType() const {
+    return ItemType::ITEM_TYPE_BOOTS;
 }
 
 
@@ -70,8 +70,8 @@ void WoodenSword::Draw() const {
 
 }
 
-ITEM_TYPE_t WoodenSword::getType() const {
-    return ITEM_TYPE_WOODEN_SWORD;
+ItemType WoodenSword::getType() const {
+    return ItemType::ITEM_TYPE_WOODEN_SWORD;
 }
 
 //Iron sword methods:
@@ -93,8 +93,8 @@ void IronSword::Draw() const {
 
 }
 
-ITEM_TYPE_t IronSword::getType() const {
-    return ITEM_TYPE_IRON_SWORD;
+ItemType IronSword::getType() const {
+    return ItemType::ITEM_TYPE_IRON_SWORD;
 }
 
 //Nano sword methods:
@@ -116,6 +116,6 @@ void NanoSword::Draw() const {
 
 }
 
-ITEM_TYPE_t NanoSword::getType() const {
-    return ITEM_TYPE_NANO_SWORD;
+ItemType NanoSword::getType() const {
+    return ItemType::ITEM_TYPE_NANO_SWORD;
 }

@@ -12,7 +12,7 @@ public:
     Consumable(std::string& name, sf::Vector2<float> position) :
         Item(name, position) {}
     virtual ~Consumable() {};
-    virtual ITEM_TYPE_t getType() const = 0;
+    virtual ItemType getType() const = 0;
     virtual int getValue() const = 0;
 	virtual void Draw() const = 0; //This will be SFML method that renders the item
 private:
@@ -22,7 +22,7 @@ class Key : public Consumable{
 public:
     Key(std::string& name, sf::Vector2<float> position);
     virtual ~Key() {};
-    virtual ITEM_TYPE_t getType() const;
+    virtual ItemType getType() const;
 	virtual void Draw() const; //This will be SFML method that renders the item
 private:
 };
@@ -33,7 +33,7 @@ public:
     Potion(std::string& name, sf::Vector2<float> position) :
         Consumable(name, position) {}
     virtual ~Potion() {};
-    virtual ITEM_TYPE_t getType() const = 0;
+    virtual ItemType getType() const = 0;
     virtual int getValue() const = 0;
 	virtual void Draw() const = 0; //This will be SFML method that renders the item
 private:
@@ -44,7 +44,7 @@ public:
     HealthPotion(std::string& name, sf::Vector2<float> position);
     virtual ~HealthPotion() {};
     int getRestore() const;
-    virtual ITEM_TYPE_t getType() const;
+    virtual ItemType getType() const;
     virtual int getValue() const;
 	virtual void Draw() const; //This will be SFML method that renders the item
 private:
@@ -57,7 +57,7 @@ public:
     ManaPotion(std::string& name, sf::Vector2<float> position);
     virtual ~ManaPotion() {};
     int getRestore() const;
-    virtual ITEM_TYPE_t getType() const;
+    virtual ItemType getType() const;
     virtual int getValue() const;
 	virtual void Draw() const; //This will be SFML method that renders the item
 private:

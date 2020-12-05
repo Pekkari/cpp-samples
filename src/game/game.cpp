@@ -209,12 +209,12 @@ void Game::handleInput(){
         }
         if (input_event_name == "Key1") {
             //Consume Health Potion
-            //player_->consumeItem(ITEM_TYPE_HEALTH_POTION);
+            //player_->consumeItem(ItemType::ITEM_TYPE_HEALTH_POTION);
 
         }
         if (input_event_name == "Key2") {
             //Consume Health Potion
-            //player_->consumeItem(ITEM_TYPE_MANA_POTION);
+            //player_->consumeItem(ItemType::ITEM_TYPE_MANA_POTION);
         }
         if (input_event_name == "Key3") {
             //TODO
@@ -223,7 +223,8 @@ void Game::handleInput(){
             //TODO
         }
         if (input_event_name == "MouseLeft") {
-            Character& target = playerAttack(playerFacing_, ATTACK_TYPE_NORMAL_HIT);
+            Character& target = playerAttack(playerFacing_,
+                AttackType::ATTACK_TYPE_NORMAL_HIT);
             if (player_->attack(target) ){
                 //Player killed a monster, add experience
                 player_->setExp(player_->getExp() + 10);
@@ -235,7 +236,8 @@ void Game::handleInput(){
             }
         }
         if (input_event_name == "MouseRight") {
-            //Character& target = playerAttack(playerFacing_, ATTACK_TYPE_AREA_SWING);
+            //Character& target = playerAttack(playerFacing_,
+            //     AttackType::ATTACK_TYPE_AREA_SWING);
             //if (player_->attack(target) ){
                 //Player killed a monster, add experience
                 /*player_->setExp(player_->getExp() + 10);
@@ -257,12 +259,12 @@ sf::Vector2<float> Game::playerMovement(sf::Vector2<float> direction){
 
 
 //Handle player attack
-Character& Game::playerAttack(sf::Vector2<float> direction, ATTACK_TYPE_t attackType){
+Character& Game::playerAttack(sf::Vector2<float> direction, AttackType attackType){
     //Use the player's range instead of a multiple and modify the range if the attack is area swing
 
     float width = 20.0f;
 
-    if ( attackType == ATTACK_TYPE_AREA_SWING ){
+    if ( attackType == AttackType::ATTACK_TYPE_AREA_SWING ){
         width = 30.0f;
     }
 

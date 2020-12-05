@@ -8,7 +8,7 @@ class Door : public NPC {
 
 
         Door(std::string& name, sf::Vector2<float> position)
-            : NPC(name, position, NPC_DOOR) {}
+            : NPC(name, position, NPCType::NPC_DOOR) {}
 
         bool isLocked() const;
         bool open();

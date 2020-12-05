@@ -5,7 +5,7 @@
 class Player : public Character {
 public:
     Player(std::string& name, sf::Vector2<float> position, int hp, int damage, int armor_strength, int mana, int speed) :
-        Character(name, position, hp, damage, armor_strength, CHARACTER_TYPE_PLAYER), mana_(mana), speed_(speed) {}
+        Character(name, position, hp, damage, armor_strength, CharacterType::CHARACTER_TYPE_PLAYER), mana_(mana), speed_(speed) {}
 
     int getMana() const;
 
@@ -19,11 +19,11 @@ public:
 
     void setExp(int value);
 
-    void consumeItem(ITEM_TYPE_t item_type);
+    void consumeItem(ItemType item_type);
 
     void interactNPC(NPC& npc);
 
-    CHARACTER_TYPE_t getType() const;
+    CharacterType getType() const;
 
 private:
     int mana_; // mana points of player
