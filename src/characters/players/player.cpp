@@ -29,7 +29,7 @@ void Player::setSpeed(int value) {
 
 void Player::setExp(int value) {
     exp_ = value;
-    if (mana_ > max_exp_) {
+    if (exp_ > max_exp_) {
         exp_ = max_exp_;
     }
 }
@@ -84,8 +84,4 @@ void Player::consumeItem(ItemType item_type)  {
 
 void Player::interactNPC(NPC& npc) {
 
-}
-
-CharacterType Player::getType() const {
-    return CharacterType::CHARACTER_TYPE_PLAYER;
 }

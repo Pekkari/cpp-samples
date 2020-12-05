@@ -105,28 +105,23 @@ Usage: char1.attack(char2). char1 attacks char2, enemy or player or vice versa.
 */
 bool Character::attack(Character& character) {
     if (this->isIdle()) {
-        int impact = damage_ - character.getArmorStrength();
-        if (impact < 0) {
-            impact = 0;
-        }
-        int value = character.getHP() - impact;
-        if (value < 0) {
-            value = 0;
-        }
-        character.setHP(value);
-/* commented out, game engine can call player.incrementExp() if attack is true (enemy killed)
-        if (value == 0) {
-            std::cout << name_ << " has killed " << character.getName() << std::endl;
-           if (char_type_ == CharacterType::CHARACTER_TYPE_PLAYER) {
-                std::cout << name_ << " had exp points " << this->getExp() << std::endl;
-                this->setExp(this->getExp()++);
-                std::cout << "and now exp points have been raised to " << this->getExp() << std::endl;
+        // write and do something like: this->animation_swing_sword()
+        if (!(this == &character)) { // attackee and attacker are not the same
+            // do also below steps
+            int impact = damage_ - character.getArmorStrength();
+            if (impact < 0) {
+                impact = 0;
             }
+            int value = character.getHP() - impact;
+            if (value < 0) {
+                value = 0;
+            }
+            character.setHP(value);
         }
-*/
         this->setLastAttackTime();
         return !character.isAlive();
     } else {
+        // if attacker not idle do not do any animation
         return false;
     }
 }
@@ -148,8 +143,6 @@ void Character::Draw() const {
 
 }
 
-
 CharacterType Character::getType() const {
-
     return char_type_;
 }

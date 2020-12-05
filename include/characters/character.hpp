@@ -72,8 +72,6 @@ public:
     // Each inherited object will call the constructor with an appropriate CharacterType.
     CharacterType getType() const;
 
-
-
     void move(sf::Vector2<float> new_position);
 
     void Draw() const; // This will be SFML method that renders the item
@@ -91,3 +89,5 @@ protected:
     uint64_t last_attack_time_;
     CharacterType char_type_;
 };
+
+bool operator==(const Character& attacker, const Character& attackee);
