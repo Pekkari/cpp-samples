@@ -89,5 +89,3 @@ protected:
     uint64_t last_attack_time_;
     CharacterType char_type_;
 };
-
-bool operator==(const Character& attacker, const Character& attackee);
