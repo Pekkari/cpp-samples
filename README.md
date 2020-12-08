@@ -38,9 +38,13 @@ $ git submodule update --init
 ```
 ## Cmake build
 
+The following build instructions have been tested using Ubuntu
+Focal(20.04). Instructions may vary if you use a different serie
+of Ubuntu, or a different debian derivative.
+
 Install build dependencies of SFML, by executing:
 ```
-sudo apt install libudev-dev libfreetype6-dev libopenal-dev libvorbis-dev libflac-dev
+sudo apt install cmake g++ libudev-dev libfreetype6-dev libopenal-dev libvorbis-dev libflac-dev libx11-dev libxrandr-dev mesa-common-dev
 ```
 Create a build directory of your choice, for instance by executing:
 ```
@@ -56,6 +60,13 @@ To build with test framework, run cmake with like following instead:
 ```
 $ cmake .. -DBUILD_TESTING=true
 ```
+To build  a debug version, run cmake with like following:
+```
+$ cmake .. -DCMAKE_BUILD_TYPE=Debug
+```
+This last will preserve the debug symbols to assist debugging through
+gdb.
+
 ## Run the game
 
 After a successful build, the game will be located under build/bin,
