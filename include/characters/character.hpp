@@ -34,7 +34,7 @@ public:
         }
     };
 
-    std::string getName() const;
+    const std::string& getName() const;
 
     sf::Vector2<float> getPosition() const;
 

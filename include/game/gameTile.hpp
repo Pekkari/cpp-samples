@@ -14,6 +14,7 @@ public:
     bool entrance() const {return isEntrance_;};
     void setOccupied(NPC* npc) { occupied_by_ = npc; };
     NPC* getOccupied() {return occupied_by_;};
+    std::string& GetName() { return name_; }
 
 private:
     NPC* occupied_by_ = nullptr;
@@ -22,6 +23,5 @@ private:
     bool isExit_;
     bool isEntrance_;
     sf::Vector2<float> pos_;
-    sf::Texture texture_;
-    sf::Sprite sprite_;
+    std::string name_;
 };
