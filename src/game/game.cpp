@@ -6,6 +6,7 @@
 
 #include "game/game.hpp"
 
+#define INPUT_BATCH_SIZE 50
 
 //Constructor & Destructor
 Game::Game(){
@@ -63,31 +64,38 @@ bool isInRange(Character& attacker, Character& attackee){
 //Update enemy logic
 void Game::update(){
     int i = 0;
-    for ( auto enemy : playerChamber()->enemies_){
-        //Check if the enemy is dead, remove if it is
-        if ( enemy->getHP() < 1 ) {
-            std::vector<Enemy *> vec = playerChamber()->enemies_;
-            vec.erase(next(begin(vec), i));
-            delete enemy;
-        }else{
-            //std::cout << "ENEMY --- x-coordinate: " << enemy->getPosition().x << " --- y-coordinate: " <<  enemy->getPosition().y << std::endl;
-            //1st Check if enemy is idle and player is near
-            //2nd If idle, check if in attack range and attack
-            //3nd else move towards player
-            //std::cout << "Update Enemy logic\n";
-            if ( enemySeePlayer(enemy->getPosition()) ){
-                if ( isInRange(*enemy, *player_) ){
-                    if (enemy->attack(*player_)) {
-                        std::cout << "PLAYER DEAD!" <<std::endl;
+    if(!gamePaused_) {
+        for ( auto enemy : playerChamber()->enemies_){
+            //Check if the enemy is dead, remove if it is
+            if ( enemy->getHP() < 1 ) {
+                std::vector<Enemy *> vec = playerChamber()->enemies_;
+                vec.erase(next(begin(vec), i));
+                delete enemy;
+            }else{
+                //std::cout << "ENEMY --- x-coordinate: " << enemy->getPosition().x << " --- y-coordinate: " <<  enemy->getPosition().y << std::endl;
+                //1st Check if enemy is idle and player is near
+                //2nd If idle, check if in attack range and attack
+                //3nd else move towards player
+                //std::cout << "Update Enemy logic\n";
+                if ( enemySeePlayer(enemy->getPosition()) ){
+                    if ( isInRange(*enemy, *player_) ){
+                        if (enemy->attack(*player_)) {
+                            display_->draw(std::string("Game Over"), sf::Vector2f(200.f, 200.f),
+                                sf::Vector2f(2, 2));
+                            gamePaused_ = true;
+                        }
+                        std::cout << "ENEMY ATTACKED, PLAYER HP: " << player_->getHP() << std::endl;
+                        //TODO if attack returns true, player died!
+                        display_->draw(std::string("Game Over"), sf::Vector2f(200.f, 200.f),
+                            sf::Vector2f(2, 2));
+
+                    }else{
+                        enemy->move(positionVector(enemy->getPosition(), player_->getPosition()));
                     }
-                    std::cout << "ENEMY ATTACKED, PLAYER HP: " << player_->getHP() << std::endl;
-                    //TODO if attack returns true, player died!
-                }else{
-                    enemy->move(positionVector(enemy->getPosition(), player_->getPosition()));
                 }
             }
+            i++;
         }
-        i++;
     }
 }
 
@@ -145,6 +153,10 @@ void Game::render(){
         std::string(" / EXP: ") << player_->getExp();
     display_->draw(ss.str(), sf::Vector2f(0.f, 500.f),
         sf::Vector2f(2, 2));
+
+    if(gamePaused_)
+        display_->draw(std::string("Game Over"), sf::Vector2f(200.f, 200.f),
+            sf::Vector2f(2, 2));
 }
 
 const bool Game::running() const {
@@ -177,101 +189,105 @@ bool Game::interactNPC(sf::Vector2<float> targetLoc){
 
 void Game::handleInput(){
     //std::cout << "PLAYER --- x-coordinate: " << player_->getPosition().x << " --- y-coordinate: " <<  player_->getPosition().y << std::endl;
-    if (!events.empty()) {
+    int i = 0;
+    while (i < INPUT_BATCH_SIZE && !events.empty()) {
         std::string input_event_name = events.front().GetName();
         std::cout << "Input event: " << input_event_name << std::endl;
         if (input_event_name == "KeyEsc") {
             std::cout << "Quitting" << std::endl;
             gameRunning_ = false;
         }
-        if (input_event_name == "KeyA") {
-            //Direction left
-            sf::Vector2<float> dir = sf::Vector2<float>(-10, 0);
-            //Update the direction the player is facing
-            playerFacing_ = dir;
-            sf::Vector2<float> newLoc = playerMovement(dir);
-            if ( gameTileAtLocation(newLoc).isPassable_ ) player_->move(newLoc);
-        }
-        if (input_event_name == "KeyD") {
-            //Direction right
-            sf::Vector2<float> dir = sf::Vector2<float>(10, 0);
-            //Update the direction the player is facing
-            playerFacing_ = dir;
-            sf::Vector2<float> newLoc = playerMovement(dir);
-            if ( gameTileAtLocation(newLoc).isPassable_ ) player_->move(newLoc);
-        }
-        if (input_event_name == "KeyW") {
-            //Direction up
-            sf::Vector2<float> dir = sf::Vector2<float>(0, -10);
-            //Update the direction the player is facing
-            playerFacing_ = dir;
-            sf::Vector2<float> newLoc = playerMovement(dir);
-            if ( gameTileAtLocation(newLoc).isPassable_ ) player_->move(newLoc);
-        }
-        if (input_event_name == "KeyS") {
-            //Direction down
-            sf::Vector2<float> dir = sf::Vector2<float>(0, 10);
-            //Update the direction the player is facing
-            playerFacing_ = dir;
-            sf::Vector2<float> newLoc = playerMovement(dir);
-            if ( gameTileAtLocation(newLoc).isPassable_ ) player_->move(newLoc);
-        }
-        if (input_event_name == "KeyE") {
-            //If player is at exit, change to next chamber
-            if ( gameTileAtLocation(player_->getPosition()).exit() ){
-                changeChamber(true);
+        if (!gamePaused_) {
+            if (input_event_name == "KeyA") {
+                //Direction left
+                sf::Vector2<float> dir = sf::Vector2<float>(-10, 0);
+                //Update the direction the player is facing
+                playerFacing_ = dir;
+                sf::Vector2<float> newLoc = playerMovement(dir);
+                if ( gameTileAtLocation(newLoc).isPassable_ ) player_->move(newLoc);
             }
-            //If player is at exit, change to previous chamber
-            if ( gameTileAtLocation(player_->getPosition()).entrance() ){
-                changeChamber(false);
+            if (input_event_name == "KeyD") {
+                //Direction right
+                sf::Vector2<float> dir = sf::Vector2<float>(10, 0);
+                //Update the direction the player is facing
+                playerFacing_ = dir;
+                sf::Vector2<float> newLoc = playerMovement(dir);
+                if ( gameTileAtLocation(newLoc).isPassable_ ) player_->move(newLoc);
             }
-            //Try to interract with an NPC
-            sf::Vector2<float> newLoc = playerMovement(playerFacing_);
-            if (interactNPC(newLoc)){
-
+            if (input_event_name == "KeyW") {
+                //Direction up
+                sf::Vector2<float> dir = sf::Vector2<float>(0, -10);
+                //Update the direction the player is facing
+                playerFacing_ = dir;
+                sf::Vector2<float> newLoc = playerMovement(dir);
+                if ( gameTileAtLocation(newLoc).isPassable_ ) player_->move(newLoc);
             }
-        }
-        if (input_event_name == "Key1") {
-            //Consume Health Potion
-            //player_->consumeItem(ItemType::ITEM_TYPE_HEALTH_POTION);
+            if (input_event_name == "KeyS") {
+                //Direction down
+                sf::Vector2<float> dir = sf::Vector2<float>(0, 10);
+                //Update the direction the player is facing
+                playerFacing_ = dir;
+                sf::Vector2<float> newLoc = playerMovement(dir);
+                if ( gameTileAtLocation(newLoc).isPassable_ ) player_->move(newLoc);
+            }
+            if (input_event_name == "KeyE") {
+                //If player is at exit, change to next chamber
+                if ( gameTileAtLocation(player_->getPosition()).exit() ){
+                    changeChamber(true);
+                }
+                //If player is at exit, change to previous chamber
+                if ( gameTileAtLocation(player_->getPosition()).entrance() ){
+                    changeChamber(false);
+                }
+                //Try to interract with an NPC
+                sf::Vector2<float> newLoc = playerMovement(playerFacing_);
+                if (interactNPC(newLoc)){
 
-        }
-        if (input_event_name == "Key2") {
-            //Consume Health Potion
-            //player_->consumeItem(ItemType::ITEM_TYPE_MANA_POTION);
-        }
-        if (input_event_name == "Key3") {
-            //TODO
-        }
-        if (input_event_name == "Key4") {
-            //TODO
-        }
-        if (input_event_name == "MouseLeft") {
-            Character& target = playerAttack(playerFacing_,
-                AttackType::ATTACK_TYPE_NORMAL_HIT);
-            if (player_->attack(target) ){
-                //Player killed a monster, add experience
-                player_->setExp(player_->getExp() + 10);
-
-                //If the enemy had items give them to the player
-                for ( auto item : target.getItems() ){
-                    player_->transferItem(item->getType(), target);
                 }
             }
-        }
-        if (input_event_name == "MouseRight") {
-            //Character& target = playerAttack(playerFacing_,
-            //     AttackType::ATTACK_TYPE_AREA_SWING);
-            //if (player_->attack(target) ){
-                //Player killed a monster, add experience
-                /*player_->setExp(player_->getExp() + 10);
+            if (input_event_name == "Key1") {
+                //Consume Health Potion
+                //player_->consumeItem(ItemType::ITEM_TYPE_HEALTH_POTION);
 
-                //If the enemy had items give them to the player
-                for ( auto item : target.getItems() ){
-                    player_->transferItem(item->getType(), target);
-                }*/
-            //}
+            }
+            if (input_event_name == "Key2") {
+                //Consume Health Potion
+                //player_->consumeItem(ItemType::ITEM_TYPE_MANA_POTION);
+            }
+            if (input_event_name == "Key3") {
+                //TODO
+            }
+            if (input_event_name == "Key4") {
+                //TODO
+            }
+            if (input_event_name == "MouseLeft") {
+                Character& target = playerAttack(playerFacing_,
+                    AttackType::ATTACK_TYPE_NORMAL_HIT);
+                if (player_->attack(target) ){
+                    //Player killed a monster, add experience
+                    player_->setExp(player_->getExp() + 10);
+
+                    //If the enemy had items give them to the player
+                    for ( auto item : target.getItems() ){
+                        player_->transferItem(item->getType(), target);
+                    }
+                }
+            }
+            if (input_event_name == "MouseRight") {
+                //Character& target = playerAttack(playerFacing_,
+                //     AttackType::ATTACK_TYPE_AREA_SWING);
+                //if (player_->attack(target) ){
+                    //Player killed a monster, add experience
+                    /*player_->setExp(player_->getExp() + 10);
+
+                    //If the enemy had items give them to the player
+                    for ( auto item : target.getItems() ){
+                        player_->transferItem(item->getType(), target);
+                    }*/
+                //}
+            }
         }
+        i++;
         events.pop();
     }
 

@@ -72,6 +72,7 @@ private:
     void initDisplay();
 
     bool gameRunning_ = true;
+    bool gamePaused_ = false;
     int currentChamber = 0;
     std::vector<Chamber*> chambers_;
     Chamber* playerChamber(){return chambers_[currentChamber];};
