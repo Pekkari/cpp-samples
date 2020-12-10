@@ -12,7 +12,7 @@
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
 
-std::queue<Draw> Display::asset_queue_;
+std::queue<Asset> Display::asset_queue_;
 
 std::mutex Display::mtx;
 
@@ -23,8 +23,11 @@ int Display::listen() {
     resolution.x = WINDOW_WIDTH;
     resolution.y = WINDOW_HEIGHT;
 
+    // Create window and offscreen buffer
     sf::RenderWindow window(sf::VideoMode(resolution.x, resolution.y),
         "Dungeon Crawler", WINDOW_STYLE);
+    sf::RenderTexture scene;
+    scene.create(resolution.x, resolution.y);
 
     //Generate input processor
     Input inp;
@@ -54,20 +57,17 @@ int Display::listen() {
         }
 
         // clear the window with black color
-        window.clear(sf::Color::Black);
+        scene.clear(sf::Color::Black);
 
-        // Draw scene
-        while(!mtx.try_lock());
-        while(!asset_queue_.empty()) {
-            Draw d = asset_queue_.front();
-            Asset asset = assets_.getAsset(d.GetName());
-            window.draw(asset.getSprite(d));
-            asset_queue_.pop();
-        }
-        mtx.unlock();
+        // Draw off screen scene
+        sf::Texture scene_tex = drawScene(scene);
+        sf::Sprite sc(scene_tex);
 
         // end the current frame
+        window.clear();
+        window.draw(sc);
         window.display();
+
         std::this_thread::sleep_for(
             std::chrono::milliseconds(std::chrono::milliseconds(15) - processing_time)
         );
@@ -80,16 +80,44 @@ std::future<int> Display::GetListenerThread() {
     return std::move(std::async(std::launch::async, &Display::listen, this));
 }
 
-void Display::draw(std::string& file, sf::Vector2f position,
+void Display::draw(const std::string& file, sf::Vector2f position,
     sf::Vector2f scale, bool flip) {
     if (mtx.try_lock()) {
-        Draw d(file, position, scale, flip);
+        Asset as(file, position, scale, flip);
 
         //to much draw request, discard
         if(asset_queue_.size() > MAX_DRAWING_ELEMENTS)
             asset_queue_.pop();
-        asset_queue_.push(d);
+        asset_queue_.push(as);
 
         mtx.unlock();
     }
+}
+
+const sf::Texture& Display::drawScene(sf::RenderTexture& scene) {
+    sf::Texture scene_tex;
+    while(!mtx.try_lock());
+    while(!asset_queue_.empty()) {
+        Asset asset = asset_queue_.front();
+        Draw* d = assets_.getDraw(asset.GetName());
+        Text* t;
+
+        if (nullptr != d) {
+            d->SetPosition(asset.GetPosition());
+            d->SetScale(asset.GetScale());
+            d->SetFlip(asset.GetFlip());
+            scene.draw(d->GetSprite());
+        } else {
+            t = assets_.getText();
+            t->SetPosition(asset.GetPosition());
+            t->SetScale(asset.GetScale());
+            scene.draw(t->GetText(asset.GetName()));
+        }
+
+        asset_queue_.pop();
+    }
+    mtx.unlock();
+
+    scene.display();
+    return scene.getTexture();
 }

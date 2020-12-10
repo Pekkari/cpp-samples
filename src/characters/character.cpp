@@ -8,7 +8,7 @@ uint64_t timeSinceEpochMillisec() {
   return duration_cast<milliseconds>(system_clock::now().time_since_epoch()).count();
 }
 
-std::string Character::getName() const {
+const std::string& Character::getName() const {
     return name_;
 }
 

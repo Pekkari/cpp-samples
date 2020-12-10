@@ -1,25 +1,15 @@
-#include <string>
-#include <SFML/System/Vector2.hpp>
+#include <SFML/Graphics/Sprite.hpp>
+#include <SFML/Graphics/Texture.hpp>
 
-class Draw {
-    std::string name_;
-    sf::Vector2f position_;
-    sf::Vector2f scale_;
-    bool flip_;
+#include "SFML/asset.hpp"
 
+class Draw : public Asset {
+    sf::Texture tex_;
 public:
-    Draw(std::string name) : name_(name) { }
-    Draw(std::string name, sf::Vector2f position)
-        : name_(name), position_(position) { }
-    Draw(std::string name, sf::Vector2f position, sf::Vector2f scale)
-        : name_(name), position_(position), scale_(scale) { }
-    Draw(std::string name, sf::Vector2f position,
-        sf::Vector2f scale, bool flip)
-        : name_(name), position_(position),
-        scale_(scale), flip_(flip) { }
+    Draw(std::string name) : Asset(name) { }
+    Draw(std::string name, sf::Texture tex)
+        : Asset(name), tex_(tex) { }
 
-    std::string GetName() { return name_; }
-    sf::Vector2f GetPosition() { return position_; }
-    sf::Vector2f GetScale() { return scale_; }
-    bool GetFlip() { return flip_; }
+    sf::Sprite GetSprite();
+    const sf::Texture& GetTexture() { return tex_; };
 };

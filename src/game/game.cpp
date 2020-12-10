@@ -24,14 +24,14 @@ Game::~Game(){
 //Private Functions
 void Game::initGame(){
     mapReader();
-    std::string playerName = "test";
+    std::string playerName = "knight_f_idle_anim_f0.png";
     player_ = new Player(playerName, playerChamber()->entrancePos_, 500, 100, 1, 5, 10);
-    for ( auto it : playerChamber()->tiles_ ){
-        for ( auto i : it ){
-            std::cout << " (" <<i->position().x  << "," << i->position().y << ") " ;
-        }
-        std::cout << std::endl;
-    }
+//  for ( auto it : playerChamber()->tiles_ ){
+//      for ( auto i : it ){
+//          std::cout << " (" <<i->position().x  << "," << i->position().y << ") " ;
+//      }
+//      std::cout << std::endl;
+//  }
 }
 void Game::initDisplay(){
 
@@ -119,7 +119,32 @@ bool Game::enemySeePlayer(sf::Vector2<float> enemyLocation){
     Maybe pass game tiles to display class?
 */
 void Game::render(){
+    std::stringstream ss;
     //pass tile and character data to display class
+    Chamber* chamber = playerChamber();
+    int tiledim = chamber->tiles_.front().front()->dimensions();
+
+    //Draw tiles
+    for (auto& tile_row : chamber->tiles_)
+        for (auto tile : tile_row)
+            display_->draw(tile->GetName(), tile->position(),
+                 sf::Vector2f(tiledim, tiledim));
+
+    //Draw Enemies
+    for (auto enemy : chamber->enemies_)
+        display_->draw(enemy->getName(), enemy->getPosition(),
+            sf::Vector2f(tiledim, tiledim));
+
+    //Draw the player
+    display_->draw(player_->getName(), player_->getPosition(),
+        sf::Vector2f(tiledim, tiledim));
+
+    //Draw sample text
+    ss << std::string("HP: ") << player_->getHP() <<
+        std::string(" / MP: ") << player_->getHP() <<
+        std::string(" / EXP: ") << player_->getExp();
+    display_->draw(ss.str(), sf::Vector2f(0.f, 500.f),
+        sf::Vector2f(2, 2));
 }
 
 const bool Game::running() const {
@@ -382,23 +407,23 @@ bool Game::mapReader() {
 
                 //Floor
                 if ( c == '0'){
-                    tilesRow.push_back(new GameTile("N/A", currentLocation, true, false, false));
+                    tilesRow.push_back(new GameTile("floor_1.png", currentLocation, true, false, false));
                     std::cout << "0";
                 }
                 //Wall
                 else if ( c == '1'){
-                    tilesRow.push_back(new GameTile("N/A", currentLocation, false, false, false));
+                    tilesRow.push_back(new GameTile("wall_mid.png", currentLocation, false, false, false));
                     std::cout << "1";
                 }
                  //Entrance
                 else if ( c == '2'){
-                    tilesRow.push_back(new GameTile("N/A", currentLocation, true, false, true));
+                    tilesRow.push_back(new GameTile("doors_leaf_open.png", currentLocation, true, false, true));
                     entrance = sf::Vector2<float> (0.0+mapTileDims_*row, 0.0+mapTileDims_*column);
                     std::cout << "2";
                 }
                 //Exit
                 else if ( c == '3'){
-                    tilesRow.push_back(new GameTile("N/A", currentLocation, true, true, false));
+                    tilesRow.push_back(new GameTile("doors_leaf_closed.png", currentLocation, true, true, false));
                     exit = sf::Vector2<float> (0.0+mapTileDims_*row, 0.0+mapTileDims_*column);
                     std::cout << "3";
                 }
@@ -412,7 +437,7 @@ bool Game::mapReader() {
                 //Create enemy
                 else {
                     enemies.push_back(initEnemy(c, currentLocation));
-                    tilesRow.push_back(new GameTile("N/A", currentLocation, true, false, false));
+                    tilesRow.push_back(new GameTile("chort_idle_anim_f0.png", currentLocation, true, false, false));
                     //TODO add occupied by
                     std::cout << c;
                 }
@@ -436,40 +461,40 @@ bool Game::mapReader() {
 */
 Enemy* Game::initEnemy(char& c, sf::Vector2<float> location){
     if ( c == 'f'){
-        std::string name = "Final Boss";
+        std::string name = "big_demon_idle_anim_f0.png";
         return new Goblin(name, location, 10, 2);
     }else if ( c == 'b') {
-        std::string name = "Black Knight";
+        std::string name = "zombie_idle_anim_f0.png";
         return new Goblin(name, location, 10, 2);
     }else if ( c == 'd') {
-        std::string name = "Dragon";
+        std::string name = "lizard_m_idle_anim_f0.png";
         return new Goblin(name, location, 10, 2);
     }else{
         //Else its a goblin, should be letter 'g'
-        std::string name = "Gobo the Tester";
+        std::string name = "tiny_zombie_idle_anim_f0.png";
         return new Goblin(name, location, 10, 20);
     }
 }
 //TODO add different item vectors to different chests
 NPC* Game::initNPC(char& c, sf::Vector2<float> location){
     if ( c == '4'){
-        std::string name = "Door";
+        std::string name = "doors_leaf_closed.png";
         return new Door(name, location);
     }else if ( c == '5') {
-        std::string name = "Wooden Chest";
+        std::string name = "crate.png";
         return new Chest(name, location);
     }else if ( c == '6') {
-        std::string name = "Gold Chest";
+        std::string name = "chest_empty_open_anim_f0.png";
         return new Chest(name, location);
     }else if ( c == '7') {
-        std::string name = "Legendary Chest";
+        std::string name = "chest_full_open_anim_f0.png";
         return new Chest(name, location);
     }else if ( c == '8') {
         std::string name = "ShopKeeper";
         return new ShopKeeper(name, location);
     }else{
         //Else its a Wizard, should be letter '9'
-        std::string name = "Wizard";
+        std::string name = "wizzard_m_idle_anim_f0.png";
         return new Wizard(name, location);
     }
 
