@@ -25,8 +25,43 @@ Game::~Game(){
 //Private Functions
 void Game::initGame(){
     mapReader();
-    std::string playerName = "knight_f_idle_anim_f0.png";
-    player_ = new Player(playerName, playerChamber()->entrancePos_, 500, 100, 1, 5, 10);
+    std::cout << "Enter to select player type (1: frog, 2: orc, 3: human):" << std::endl;
+    int ptype;
+    std::string ptype_name;
+    std::string playerName;
+    int hp, damage, armor_strength, mana, speed;
+    std::cin >> ptype;
+    switch (ptype) {
+        case 1:
+            ptype_name = "frog";
+            playerName = "lizard_f_idle_anim_f0.png";
+            hp = 500; damage = 100; armor_strength = 1; mana = 5; speed = 10;
+            break;
+        case 2:
+            ptype_name = "orc";
+            playerName = "elf_f_idle_anim_f0.png";
+            hp = 1000; damage = 200; armor_strength = 10; mana = 10; speed = 20;
+            break;
+        case 3:
+            ptype_name = "human";
+            playerName = "knight_f_idle_anim_f0.png";
+            hp = 1500; damage = 300; armor_strength = 100; mana = 15; speed = 30;
+            break;
+        default:
+            ptype_name = "frog";
+            playerName = "lizard_f_idle_anim_f0.png";
+            int hp = 500, damage = 100, armor_strength = 1, mana = 5, speed = 10;
+            break;
+     }
+    // player_ = new Player(playerName, playerChamber()->entrancePos_, 500, 100, 1, 5, 10);
+    std::cout << "You have selected to be: " << ptype_name << ", with the following attribute starting values:" << std::endl;
+    std::cout << "hp: " << hp << std::endl;
+    std::cout << "damage: " << damage << std::endl;
+    std::cout << "armor_strength: " << armor_strength << std::endl;
+    std::cout << "mana: " << mana << std::endl;
+    std::cout << "speed: " << speed << std::endl;
+    std::cout << std::endl;
+    player_ = new Player(playerName, playerChamber()->entrancePos_, hp, damage, armor_strength, mana, speed);
 //  for ( auto it : playerChamber()->tiles_ ){
 //      for ( auto i : it ){
 //          std::cout << " (" <<i->position().x  << "," << i->position().y << ") " ;
