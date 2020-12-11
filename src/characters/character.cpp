@@ -87,7 +87,7 @@ void Character::setLastAttackTime() {
 }
 
 bool Character::isIdle() {
-    if (timeSinceEpochMillisec() - last_attack_time_ > 200) {
+    if ((timeSinceEpochMillisec() - last_attack_time_) > (uint64_t)1000) {
         return true;
     } else {
         return false;
@@ -104,9 +104,12 @@ Usage: char1.attack(char2). char1 attacks char2, enemy or player or vice versa.
 @return returns true if the attackee was killed.
 */
 bool Character::attack(Character& character) {
-    if (this->isIdle()) {
+    //std::cout<<"Epochmillsecs: " << timeSinceEpochMillisec() << std::endl;
+    //std::cout<<"Last attack time: " << last_attack_time_ << std::endl;
+    //std::cout<<"Epoch - Last = " << timeSinceEpochMillisec()- last_attack_time_ << std::endl;
+    if (this->getType() == CharacterType::CHARACTER_TYPE_PLAYER || this->isIdle()) {
         // write and do something like: this->animation_swing_sword()
-        if (!(this == &character)) { // attackee and attacker are not the same
+        if (this->getName() != character.getName()) { // attackee and attacker are not the same
             // do also below steps
             int impact = damage_ - character.getArmorStrength();
             if (impact < 0) {
@@ -127,7 +130,7 @@ bool Character::attack(Character& character) {
 }
 
 bool Character::isAlive() const {
-    if (hp_ == 0) {
+    if (hp_ < 1) {
         return false;
     } else {
         return true;

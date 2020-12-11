@@ -7,7 +7,7 @@ class Dragon : public Enemy {
 
         // Random hp and dmg, since each enemy should have their own values.
         Dragon(std::string& name, sf::Vector2<float> position, int hp, int dmg)
-            : Enemy(name, position, hp=50, dmg=40) {}
+            : Enemy(name, position, hp=3, dmg=1) {}
 
 
 

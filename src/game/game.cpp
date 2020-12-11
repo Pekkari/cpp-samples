@@ -92,44 +92,59 @@ bool isInRange(Character& attacker, Character& attackee){
     sf::Vector2<float> dirVector = attacker.getPosition() - attackee.getPosition();
     float dist = std::hypot(dirVector.x, dirVector.y);
     //attacker range here
-    if ( 10 >= dist ) return true;
+    std::cout  << "enemy next to the player" << std::endl;
+    if ( 100 >= dist ) return true;
     else return false;
 }
 
 //Update enemy logic
 void Game::update(){
-    int i = 0;
     if(!gamePaused_) {
-        for ( auto enemy : playerChamber()->enemies_){
+        for (auto chamber : chambers_) // trying to loop over all chambers
+        {
+            if(chamber->enemies_.size())
+            {
+                break;
+            }
+            else
+            {
+                gamePaused_ = true;
+                break;
+            }
+        }
+        for (std::vector<Enemy *>::iterator it = playerChamber()->enemies_.begin();it != playerChamber()->enemies_.end();)
+        {
             //Check if the enemy is dead, remove if it is
-            if ( enemy->getHP() < 1 ) {
+            if ( (*it)->getHP() < 1 ) {
                 std::vector<Enemy *> vec = playerChamber()->enemies_;
-                vec.erase(next(begin(vec), i));
-                delete enemy;
+
+                it = playerChamber()->enemies_.erase(it);
             }else{
                 //std::cout << "ENEMY --- x-coordinate: " << enemy->getPosition().x << " --- y-coordinate: " <<  enemy->getPosition().y << std::endl;
                 //1st Check if enemy is idle and player is near
                 //2nd If idle, check if in attack range and attack
                 //3nd else move towards player
                 //std::cout << "Update Enemy logic\n";
-                if ( enemySeePlayer(enemy->getPosition()) ){
-                    if ( isInRange(*enemy, *player_) ){
-                        if (enemy->attack(*player_)) {
+                if ( enemySeePlayer((*it)->getPosition()) ){
+                    Enemy& enemy = *(*it);
+                    if ( isInRange(enemy, *player_) ){
+                        bool attack = (*it)->attack(*player_);
+                        if (attack) {
                             display_->draw(std::string("Game Over"), sf::Vector2f(200.f, 200.f),
                                 sf::Vector2f(2, 2));
                             gamePaused_ = true;
                         }
                         std::cout << "ENEMY ATTACKED, PLAYER HP: " << player_->getHP() << std::endl;
                         //TODO if attack returns true, player died!
-                        display_->draw(std::string("Game Over"), sf::Vector2f(200.f, 200.f),
-                            sf::Vector2f(2, 2));
+                        //display_->draw(std::string("Game Over"), sf::Vector2f(200.f, 200.f),
+                        //    sf::Vector2f(2, 2));
 
                     }else{
-                        enemy->move(positionVector(enemy->getPosition(), player_->getPosition()));
+                        (*it)->move(positionVector((*it)->getPosition(), player_->getPosition()));
                     }
                 }
+                it++;
             }
-            i++;
         }
     }
 }
@@ -190,8 +205,18 @@ void Game::render(){
         sf::Vector2f(2, 2));
 
     if(gamePaused_)
-        display_->draw(std::string("Game Over"), sf::Vector2f(200.f, 200.f),
+    {
+        if(!playerChamber()->enemies_.size())
+        {
+            display_->draw(std::string("All enemies killed. You won! \n Congratulations!"), sf::Vector2f(75.f, 200.f),
             sf::Vector2f(2, 2));
+        }
+        else
+        {
+            display_->draw(std::string("Game Over"), sf::Vector2f(200.f, 200.f),
+            sf::Vector2f(2, 2));
+        }
+    }
 }
 
 const bool Game::running() const {
@@ -348,11 +373,20 @@ Character& Game::playerAttack(sf::Vector2<float> direction, AttackType attackTyp
     sf::Vector2<float> playerPos = player_->getPosition();
     sf::Vector2<float> attackVector = (playerPos + direction)*2.0f;
 
-    if ( attackVector.x < 0 ) attackVector = sf::Vector2<float>(0.0f, 0.0f);
-    if ( attackVector.y < 0 ) attackVector = sf::Vector2<float>(0.0f, 0.0f);
+    if ( attackVector.x < 0 ) attackVector = sf::Vector2<float>(0.0f, attackVector.y);
+    if ( attackVector.y < 0 ) attackVector = sf::Vector2<float>(attackVector.x, 0.0f);
 
     std::cout << "MAX RANGE OF ATTACK --- X: "  << attackVector.x << " - Y: " << attackVector.y << std::endl;
 
+    for ( auto enemy : playerChamber()->enemies_) {
+
+        if(isInRange(*player_, *enemy)){
+            return *enemy;
+        }
+
+
+    }
+    /*
     //Check if horizontal attack
     if ( direction.y == 0.0f){
         for ( auto enemy : playerChamber()->enemies_){
@@ -388,7 +422,7 @@ Character& Game::playerAttack(sf::Vector2<float> direction, AttackType attackTyp
                 }
             }
         }
-    }
+    }*/
     return *player_;
 }
 

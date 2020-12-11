@@ -24,9 +24,11 @@ std::ostream& operator<<(std::ostream& os, CharacterType character) {
 class Character {
 public:
     Character(std::string& name, sf::Vector2<float> position, CharacterType type) :
-        name_(name), position_(position), char_type_(type) { }
+        name_(name), position_(position), char_type_(type) { setLastAttackTime(); }
     Character(std::string& name, sf::Vector2<float> position, int hp, int damage, int armor_strength, CharacterType type) :
-        name_(name), position_(position), hp_(hp), damage_(damage), armor_strength_(armor_strength), char_type_(type) { }
+        name_(name), position_(position), hp_(hp), damage_(damage), armor_strength_(armor_strength), char_type_(type) {
+            setLastAttackTime();
+        }
 
     ~Character() {
         for (auto it : items_) {
