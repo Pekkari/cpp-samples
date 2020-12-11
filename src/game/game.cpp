@@ -204,11 +204,13 @@ void Game::changeChamber(bool nextChamber) {
         currentChamber--;
         player_->move(playerChamber()->exitPos_);
         std::cout << "PREVIOUS CHAMBER!" << std::endl;
+        return;
     }
     if (nextChamber) {
         currentChamber++;
         player_->move(playerChamber()->entrancePos_);
         std::cout << "NEXT CHAMBER!" << std::endl;
+        return;
     }
 }
 
@@ -271,7 +273,7 @@ void Game::handleInput(){
                     changeChamber(true);
                 }
                 //If player is at exit, change to previous chamber
-                if ( gameTileAtLocation(player_->getPosition()).entrance() ){
+                else if ( gameTileAtLocation(player_->getPosition()).entrance() ){
                     changeChamber(false);
                 }
                 //Try to interract with an NPC
