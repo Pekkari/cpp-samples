@@ -18,7 +18,7 @@ TextureLoader::TextureLoader() {
             else if (font.loadFromFile(path))
                 as = new Text(filename, font);
 
-            assets_.push_back(as);
+            assets_[filename] = as;
         }
 }
 
@@ -36,26 +36,28 @@ TextureLoader::TextureLoader(std::string path) {
             if (font.loadFromFile(path))
                 as = new Text(filename, font);
 
-            assets_.push_back(as);
+            assets_[filename] = as;
         }
 }
 
 Draw* TextureLoader::getDraw(std::string filename) {
-    for (Asset* asset : assets_)
-        if (asset->GetName() == filename) {
-            Draw* d = (Draw*) asset;
-            return d;
-        }
+    Draw* d = nullptr;
+    try {
+        d = (Draw*) assets_[filename];
+    }
+    // No draw, ignore the exception and return null
+    catch (std::out_of_range e) { }
 
-    return nullptr;
+    return d;
 }
 
 Text* TextureLoader::getText(std::string filename) {
-    for (Asset* asset : assets_)
-        if (asset->GetName() == filename) {
-            Text* t = (Text*) asset;
-            return t;
-        }
+    Text* t = nullptr;
+    try {
+        t = (Text*) assets_[filename];
+    }
+    // No text, ignore the exception and return null
+    catch (std::out_of_range e) { }
 
-    return nullptr;
+    return t;
 }

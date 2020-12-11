@@ -1,4 +1,4 @@
-#include <list>
+#include <map>
 #include <string>
 
 #include "SFML/asset.hpp"
@@ -6,13 +6,13 @@
 #include "SFML/text.hpp"
 
 class TextureLoader {
-    std::list<Asset*> assets_;
+    std::map<std::string, Asset*> assets_;
 public:
     TextureLoader();
 
     ~TextureLoader() {
-        for (Asset* as : assets_)
-            delete as;
+        for (auto as : assets_)
+            delete as.second;
     }
 
     TextureLoader(std::string path);
